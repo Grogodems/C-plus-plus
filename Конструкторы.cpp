@@ -1,40 +1,138 @@
-class Box {
-public:
-    // Default constructor
-    Box() {}
+#include <iostream>
+#include <string>
 
-    // Initialize a Box with equal dimensions (i.e. a cube)
-    explicit Box(int i) : m_width(i), m_length(i), m_height(i) // member init list
-    {}
+using namespace std;
 
-    // Initialize a Box with custom dimensions
-    Box(int width, int length, int height)
-        : m_width(width), m_length(length), m_height(height)
-    {}
+/*. Создать класс Fraction для работы с дробными числами.
+Число должно быть представлено двумя полями: целая часть – длинное целое со знаком,
+дробная часть – беззнаковое короткое целое.
+Реализовать арифметические операции сложения, вычитания, умножения и операции сравнения.*/
 
-    int Volume() { return m_width * m_length * m_height; }
+class Fraction {
 
+    //переменные которые мы будем использовать в классе
 private:
-    // Will have value of 0 when default constructor is called.
-    // If we didn't zero-init here, default constructor would
-    // leave them uninitialized with garbage values.
-    int m_width{ 0 };
-    int m_length{ 0 };
-    int m_height{ 0 };
+    long first;
+    unsigned short second;
+
+    //сохранение переменых которые поступают из вызова в рабочие переменные
+public:
+    //если ничего не ввели
+    //констуктор
+    Fraction() {
+        first = 0;
+        second = 0;
+    }
+    //если ввели
+    Fraction(long f, unsigned short s) {
+        first = f;
+        second = s;
+    }
+
+
+    //ввод first part и second part числа
+    void read() {
+        cout << "Первая часть: ";
+        cin >> first;
+        cout << "Вторая часть: ";
+        cin >> second;
+    }
+
+    //Вывод объединённого числа в консоль
+    void show() {
+        cout << "Число: " << first << "." << second << endl;
+    }
+
+    //для вывода результата объединения в одну строку.
+    string toString() {
+        string s = to_string(first) + "." + to_string(second);
+        return s;
+    }
+
+    //Сложение
+    static void Summa(Fraction a, Fraction b) {
+        double one, two;
+        one = a.second;
+        while (one > 1)
+            one /= 10;
+        one += a.first;
+        two = b.second;
+        while (two > 1)
+            two /= 10;
+        two += b.first;
+        cout << "Сложение: " << one + two << endl;
+    }
+    //Вычитание
+    static void minus(Fraction a, Fraction b) {
+        double one, two;
+        one = a.second;
+        while (one > 1)
+            one /= 10;
+        one += a.first;
+        two = b.second;
+        while (two > 1)
+            two /= 10;
+        two += b.first;
+        cout << "Вычитание: " << one - two << endl;
+    }
+    //Умножение
+    static void Umnoh(Fraction a, Fraction b) {
+        double one, two;
+        one = a.second;
+        while (one > 1)
+            one /= 10;
+        one += a.first;
+        two = b.second;
+        while (two > 1)
+            two /= 10;
+        two += b.first;
+        cout << "Умножение: " << one * two << endl;
+    }
+    //Стравнение
+    static void Equal(Fraction a, Fraction b) {
+        double one_E, two_E;
+        one_E = a.second;
+        while (one_E > 1)
+            one_E /= 10;
+        one_E += a.first;
+        two_E = b.second;
+        while (two_E > 1)
+            two_E /= 10;
+        two_E += b.first;
+
+        if (one_E == two_E)
+            cout << "Числа одинаковые." << endl;
+        else if (one_E > two_E)
+            cout << "Первое число больше второго." << endl;
+        else
+            cout << "Второе число больше первого." << endl;
+    }
 };
 
 int main()
 {
-    Box b; // Calls Box()
+    setlocale(LC_ALL, "ru");
+    Fraction A;
+    A.show();
+    cout << "\n";
 
-    // Using uniform initialization (preferred):
-    Box b2{ 5 }; // Calls Box(int)
-    Box b3{ 5, 8, 12 }; // Calls Box(int, int, int)
+    //Для проверки 2 зафиксированных числа
+    Fraction N(5, 2);
+    N.show();
+    cout << "Число 1: " << N.toString() << "\n\n";
 
-    // Using function-style notation:
-    Box b4(2, 4, 6); // Calls Box(int, int, int)
+    Fraction M = Fraction{ 5, 0 };
+    M.show();
+    cout << "Число 2: " << M.toString() << "\n\n";
+
+    //Часть где пользователь вводит сам число.
+    Fraction K;
+    K.read();
+    K.show();
+    cout << "Число 3: " << K.toString() << "\n\n";
+
+    A.Summa(N, M);
+    A.minus(N, M);
+    A.Umnoh(N, K);
+    A.Equal(N, K);
 }
-
-//Конструкторы могут быть объявлены как inline, , explicitfriendили constexpr.
-//Конструктор может инициализировать объект, объявленный как const, volatile или const volatile.Объект становится const после завершения конструктора.
-//Чтобы определить конструктор в файле реализации, присвойте ему полное имя, как и любая другая функция - член: Box::Box() { ... }
